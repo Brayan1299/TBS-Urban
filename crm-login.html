@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBS Urban - Iniciar Sesión</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para la página de login */
+        .login-container {
+            display: flex;
+            min-height: calc(100vh - 160px);
+        }
+        
+        .login-form-container {
+            flex: 1;
+            padding: 50px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-hero {
+            flex: 1;
+            background-image: url('https://images.unsplash.com/photo-1552346154-21d32810aba3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .login-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .hero-content {
+            position: relative;
+            text-align: center;
+            max-width: 500px;
+            padding: 20px;
+        }
+        
+        .hero-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-form h1 {
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 2rem;
+            color: #333;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #BF953F;
+        }
+        
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 5px;
+        }
+        
+        .forgot-password {
+            color: #BF953F;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #ddd;
+        }
+        
+        .login-divider span {
+            padding: 0 10px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .register-link {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .register-link a {
+            color: #BF953F;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .login-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .login-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #777;
+            position: relative;
+        }
+        
+        .login-tab.active {
+            color: #BF953F;
+        }
+        
+        .login-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #BF953F;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .login-tab.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* Formulario de registro (oculto por defecto) */
+        .register-form {
+            display: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column-reverse;
+            }
+            
+            .login-hero {
+                min-height: 300px;
+            }
+            
+            .login-form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-text gold-text">TBS URBAN</span>
+                    </a>
+                </div>
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Buscar...">
+                        <button type="button" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <a href="crm-login.html" class="account-button" title="Iniciar sesión">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button class="cart-button" onclick="openCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <div class="login-container">
+            <div class="login-form-container">
+                <div class="login-form">
+                    <h1>Bienvenido</h1>
+                    
+                    <div class="login-tabs">
+                        <div class="login-tab active" id="loginTab">Iniciar Sesión</div>
+                        <div class="login-tab" id="registerTab">Crear Cuenta</div>
+                    </div>
+                    
+                    <!-- Formulario de inicio de sesión -->
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Usuario</label>
+                            <input type="text" id="loginEmail" placeholder="Ingresa tu usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Contraseña</label>
+                            <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña">
+                        </div>
+                        <div class="form-footer">
+                            <div class="remember-me">
+                                <input type="checkbox" id="rememberMe">
+                                <label for="rememberMe">Recordarme</label>
+                            </div>
+                            <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <button type="submit" class="login-btn">Iniciar sesión</button>
+                        
+                        <div class="login-divider">
+                            <span>o continúa con</span>
+                        </div>
+                        
+                        <div class="social-login">
+                            <button type="button" class="social-btn">
+                                <i class="fab fa-google"></i>
+                            </button>
+                            <button type="button" class="social-btn">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button type="button" class="social-btn">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="register-link">¿No tienes una cuenta? <a href="#" id="switchToRegister">Regístrate</a></p>
+                    </form>
+                    
+                    <!-- Formulario de registro -->
+                    <form id="registerForm" class="register-form">
+                        <div class="form-group">
+                            <label for="regName">Nombre completo</label>
+                            <input type="text" id="regName" placeholder="Ingresa tu nombre completo">
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail">Correo electrónico</label>
+                            <input type="email" id="regEmail" placeholder="Ingresa tu correo electrónico">
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword">Contraseña</label>
+                            <input type="password" id="regPassword" placeholder="Crea tu contraseña">
+                        </div>
+                        <div class="form-group">
+                            <label for="regPasswordConfirm">Confirmar contraseña</label>
+                            <input type="password" id="regPasswordConfirm" placeholder="Confirma tu contraseña">
+                        </div>
+                        <button type="submit" class="login-btn">Registrarse</button>
+                        
+                        <div class="login-divider">
+                            <span>o regístrate con</span>
+                        </div>
+                        
+                        <div class="social-login">
+                            <button type="button" class="social-btn">
+                                <i class="fab fa-google"></i>
+                            </button>
+                            <button type="button" class="social-btn">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button type="button" class="social-btn">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="register-link">¿Ya tienes una cuenta? <a href="#" id="switchToLogin">Iniciar sesión</a></p>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="login-hero">
+                <div class="hero-content">
+                    <h2>TBS Urban Connect</h2>
+                    <p>Accede a tu cuenta para gestionar tus pedidos, ver tus favoritos y recibir recomendaciones personalizadas basadas en tu estilo.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="logo-text gold-text">TBS URBAN</h3>
+                    <p>Tu tienda especializada en tenis para hombres con las últimas tendencias y la mejor calidad.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Categorías</h4>
+                    <ul>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="#">Sobre nosotros</a></li>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="#">Envíos</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Medellin</li>
+                        <li><i class="fas fa-phone"></i> +57 300 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@tbsurban.com</li>
+                        <li><i class="fas fa-clock"></i> Lun-Sáb: 10am - 8pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TBS Urban. Todos los derechos reservados.</p>
+                <div class="footer-links">
+                    <a href="#">Política de privacidad</a>
+                    <a href="#">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Overlay para elementos emergentes -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Funcionalidad específica para la página de login
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cambio entre formularios
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const switchToRegister = document.getElementById('switchToRegister');
+            const switchToLogin = document.getElementById('switchToLogin');
+            
+            function showLoginForm() {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            }
+            
+            function showRegisterForm() {
+                loginTab.classList.remove('active');
+                registerTab.classList.add('active');
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            }
+            
+            loginTab.addEventListener('click', showLoginForm);
+            registerTab.addEventListener('click', showRegisterForm);
+            switchToRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterForm();
+            });
+            switchToLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginForm();
+            });
+            
+            // Manejo del formulario de login
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                // Validación simple
+                if (!username || !password) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
+                
+                // Verificar credenciales predefinidas para demo
+                if (username === 'admin' && password === 'admin') {
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('userType', 'admin');
+                    localStorage.setItem('userEmail', username);
+                    window.location.href = 'crm-admin.html';
+                } else if (username === 'cliente' && password === 'cliente') {
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('userType', 'cliente');
+                    localStorage.setItem('userEmail', username);
+                    window.location.href = 'crm-cliente.html';
+                } else {
+                    alert('Credenciales incorrectas');
+                    return;
+                }
+            });
+            
+            // Manejo del formulario de registro (demo)
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('regName').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                const passwordConfirm = document.getElementById('regPasswordConfirm').value;
+                
+                // Validación simple
+                if (!name || !email || !password || !passwordConfirm) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
+                
+                if (password !== passwordConfirm) {
+                    alert('Las contraseñas no coinciden');
+                    return;
+                }
+                
+                // En un entorno real, aquí iría el código para registrar al usuario
+                // Para la demo, simplemente mostramos un mensaje y cambiamos al login
+                alert('¡Registro exitoso! Ahora puedes iniciar sesión con tus credenciales');
+                showLoginForm();
+                
+                // Prellenamos el formulario de login con el email ingresado
+                document.getElementById('loginEmail').value = email;
+                document.getElementById('loginPassword').value = '';
+            });
+            
+            // Verificar si hay una sesión activa
+            const userLoggedIn = localStorage.getItem('userLoggedIn');
+            const userType = localStorage.getItem('userType');
+            
+            if (userLoggedIn === 'true') {
+                if (userType === 'admin') {
+                    window.location.href = 'crm-admin.html';
+                } else {
+                    window.location.href = 'crm-cliente.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

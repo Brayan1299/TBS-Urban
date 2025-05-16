@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBS Urban - Tenis para Hombres</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader-active" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+        <div style="text-align: center; position: relative;">
+            <div class="logo-text" style="font-size: 3.5rem; margin-bottom: 40px; font-weight: 800; background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); -webkit-background-clip: text; color: transparent; animation: shimmer 2s infinite;">TBS URBAN</div>
+            <div style="position: relative; width: 80px; height: 80px; margin: 0 auto;">
+                <div style="position: absolute; width: 100%; height: 100%; border: 4px solid #f3f3f3; border-radius: 50%; border-top: 4px solid #BF953F; animation: spin 1s linear infinite;"></div>
+                <div style="position: absolute; width: 70%; height: 70%; top: 15%; left: 15%; border: 4px solid #f3f3f3; border-radius: 50%; border-top: 4px solid #FCF6BA; animation: spin 1.2s linear infinite reverse;"></div>
+                <div style="position: absolute; width: 40%; height: 40%; top: 30%; left: 30%; border: 4px solid #f3f3f3; border-radius: 50%; border-top: 4px solid #B38728; animation: spin 1.5s linear infinite;"></div>
+            </div>
+            <p style="margin-top: 30px; color: #BF953F; font-weight: 500; letter-spacing: 2px; animation: fade 1.5s infinite alternate;">CARGANDO</p>
+        </div>
+    </div>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -100% center; }
+            100% { background-position: 100% center; }
+        }
+        @keyframes fade {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+    </style>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Barra de anuncios -->
+    <div class="announcement-bar" id="announcement-bar">
+        <p>Envío gratis en pedidos superiores a $100.000</p>
+        <button class="close-button" onclick="closeAnnouncement()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Cabecera -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-text gold-text">TBS URBAN</span>
+                    </a>
+                </div>
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Buscar...">
+                        <button type="button" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <a href="crm-login.html" class="account-button" title="Iniciar sesión">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button class="cart-button" onclick="openCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menú móvil (oculto por defecto) -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-text gold-text">TBS URBAN</span>
+            </div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-search">
+            <input type="text" placeholder="Buscar...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="categoria.html?cat=casual">Casual</a></li>
+                <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Contenido principal -->
+    <main>
+        <!-- Hero Section -->
+    <section class="hero-slider">
+        <div class="slide active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>ESTILO URBANO PREMIUM</h1>
+                    <p>Descubre nuestra colección exclusiva de tenis para hombre</p>
+                    <div class="hero-buttons">
+                        <a href="categoria.html?cat=deportivos" class="btn primary-btn">Comprar ahora</a>
+                        <a href="#featured" class="btn secondary-btn">Ver destacados</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="hero sale-hero">
+                <div class="hero-content">
+                    <h1>SUPER SALE</h1>
+                    <p>¡Aprovecha nuestras promociones exclusivas!</p>
+                    <div class="hero-buttons">
+                        <a href="categoria.html?cat=ofertas" class="btn primary-btn">Ver ofertas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="hero exclusive-hero">
+                <div class="hero-content">
+                    <h1>COLECCIÓN EXCLUSIVA</h1>
+                    <p>Descubre nuestros modelos más exclusivos</p>
+                    <div class="hero-buttons">
+                        <a href="categoria.html?cat=exclusivos" class="btn primary-btn">Ver colección</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="hero sale-hero">
+                <div class="hero-content">
+                    <h1>SUPER SALE</h1>
+                    <p>¡Aprovecha nuestras promociones exclusivas!</p>
+                    <div class="hero-buttons">
+                        <a href="categoria.html?cat=ofertas" class="btn primary-btn">Ver ofertas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="hero exclusive-hero">
+                <div class="hero-content">
+                    <h1>COLECCIÓN EXCLUSIVA</h1>
+                    <p>Descubre nuestros modelos más exclusivos</p>
+                    <div class="hero-buttons">
+                        <a href="categoria.html?cat=exclusivos" class="btn primary-btn">Ver colección</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+        <!-- Productos destacados -->
+        <section id="featured" class="featured-products">
+            <div class="container">
+                <h2 class="section-title">DESTACADOS</h2>
+                <div class="products-grid" id="featuredProducts">
+                    <!-- Los productos se cargarán dinámicamente desde JS -->
+                </div>
+                <div class="view-all-container">
+                    <a href="categoria.html" class="btn secondary-btn">Ver todos los productos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Banner promocional -->
+        <section class="promo-banner">
+            <div class="promo-content">
+                <h2>COLECCIÓN LIMITADA</h2>
+                <p>Exclusiva serie de tenis deportivos con diseños únicos y materiales premium</p>
+                <a href="categoria.html?cat=deportivos" class="btn primary-btn">Descubrir ahora</a>
+            </div>
+        </section>
+
+        <!-- Nuevos productos -->
+        <section class="new-arrivals">
+            <div class="container">
+                <h2 class="section-title">RECIÉN LLEGADOS</h2>
+                <div class="products-grid" id="newProducts">
+                    <!-- Los productos se cargarán dinámicamente desde JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>ÚNETE A NUESTRA COMUNIDAD</h2>
+                    <p>Suscríbete para recibir las últimas noticias, lanzamientos exclusivos y ofertas especiales</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" placeholder="Tu correo electrónico" required>
+                        <button type="submit" class="btn primary-btn">Suscribirse</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Carrito (oculto por defecto) -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu carrito</h3>
+            <button class="close-cart" onclick="closeCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Los items del carrito se cargarán dinámicamente -->
+        </div>
+        <div class="cart-empty" id="cartEmpty">
+            <i class="fas fa-shopping-bag"></i>
+            <p>Tu carrito está vacío</p>
+            <button onclick="closeCart()" class="btn primary-btn">Continuar comprando</button>
+        </div>
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-totals">
+                <div class="subtotal">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">$0</span>
+                </div>
+                <div class="shipping">
+                    <span>Envío</span>
+                    <span id="cartShipping">$0</span>
+                </div>
+                <div class="total">
+                    <span>Total</span>
+                    <span id="cartTotal">$0</span>
+                </div>
+            </div>
+            <button class="btn primary-btn checkout-btn">Finalizar compra</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="logo-text gold-text">TBS URBAN</h3>
+                    <p>Tu tienda especializada en tenis para hombres con las últimas tendencias y la mejor calidad.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Categorías</h4>
+                    <ul>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="#">Sobre nosotros</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Medellin</li>
+                        <li><i class="fas fa-phone"></i> +57 300 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@tbsurban.com</li>
+                        <li><i class="fas fa-clock"></i> Lun-Sáb: 10am - 8pm</li>
+                    </ul>
+                </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TBS Urban. Todos los derechos reservados.</p>
+                <div class="footer-links">
+                    <a href="#">Política de privacidad</a>
+                    <a href="#">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Overlay para elementos emergentes -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

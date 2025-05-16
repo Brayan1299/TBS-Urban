@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categoría | TBS Urban - Tenis para Hombres</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Barra de anuncios -->
+    <div class="announcement-bar" id="announcement-bar">
+        <p>Envío gratis en pedidos superiores a $100.000</p>
+        <button class="close-button" onclick="closeAnnouncement()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Cabecera -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-text">TBS URBAN</span>
+                    </a>
+                </div>
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Buscar...">
+                        <button type="button" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <a href="crm-login.html" class="account-button" title="Iniciar sesión">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <button class="cart-button" onclick="openCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menú móvil (oculto por defecto) -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-text">TBS URBAN</span>
+            </div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-search">
+            <input type="text" placeholder="Buscar...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="categoria.html?cat=casual">Casual</a></li>
+                <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Contenido principal -->
+    <main>
+        <!-- Encabezado de categoría -->
+        <section class="category-header">
+            <div class="container">
+                <h1 class="section-title" id="categoryTitle">Categoría</h1>
+                <div class="category-filters">
+                    <div class="filter-group">
+                        <label for="sortBy">Ordenar por:</label>
+                        <select id="sortBy" class="filter-select">
+                            <option value="default">Destacados</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                            <option value="rating">Mejor valorados</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Productos de la categoría -->
+        <section class="category-products">
+            <div class="container">
+                <div class="products-grid" id="categoryProducts">
+                    <!-- Los productos se cargarán dinámicamente desde JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>ÚNETE A NUESTRA COMUNIDAD</h2>
+                    <p>Suscríbete para recibir las últimas noticias, lanzamientos exclusivos y ofertas especiales</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" placeholder="Tu correo electrónico" required>
+                        <button type="submit" class="btn primary-btn">Suscribirse</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Carrito (oculto por defecto) -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu carrito</h3>
+            <button class="close-cart" onclick="closeCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Los items del carrito se cargarán dinámicamente -->
+        </div>
+        <div class="cart-empty" id="cartEmpty">
+            <i class="fas fa-shopping-bag"></i>
+            <p>Tu carrito está vacío</p>
+            <button onclick="closeCart()" class="btn primary-btn">Continuar comprando</button>
+        </div>
+        <div class="cart-footer" id="cartFooter">
+            <div class="cart-totals">
+                <div class="subtotal">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">$0</span>
+                </div>
+                <div class="shipping">
+                    <span>Envío</span>
+                    <span id="cartShipping">$0</span>
+                </div>
+                <div class="total">
+                    <span>Total</span>
+                    <span id="cartTotal">$0</span>
+                </div>
+            </div>
+            <button class="btn primary-btn checkout-btn">Finalizar compra</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="logo-text">TBS URBAN</h3>
+                    <p>Tu tienda especializada en tenis para hombres con las últimas tendencias y la mejor calidad.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Categorías</h4>
+                    <ul>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="#">Sobre nosotros</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Medellin</li>
+                        <li><i class="fas fa-phone"></i> +57 300 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@tbsurban.com</li>
+                        <li><i class="fas fa-clock"></i> Lun-Sáb: 10am - 8pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TBS Urban. Todos los derechos reservados.</p>
+                <div class="footer-links">
+                    <a href="#">Política de privacidad</a>
+                    <a href="#">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Overlay para elementos emergentes -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Funcionalidad específica de la página de categoría
+        document.addEventListener('DOMContentLoaded', function() {
+            const sortBySelect = document.getElementById('sortBy');
+            if (sortBySelect) {
+                sortBySelect.addEventListener('change', function() {
+                    const categoryParam = getURLParameter('cat');
+                    if (categoryParam) {
+                        const products = getProductsByCategory(categoryParam);
+                        const sortedProducts = sortProducts(products, this.value);
+                        renderProducts(sortedProducts, document.getElementById('categoryProducts'));
+                    }
+                });
+            }
+        });
+
+        function sortProducts(products, sortOption) {
+            const sortedProducts = [...products];
+            
+            switch (sortOption) {
+                case 'price-low':
+                    sortedProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sortedProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    sortedProducts.sort((a, b) => b.rating - a.rating);
+                    break;
+                default:
+                    // Destacados (featured primero, luego por rating)
+                    sortedProducts.sort((a, b) => {
+                        if (a.isFeatured && !b.isFeatured) return -1;
+                        if (!a.isFeatured && b.isFeatured) return 1;
+                        return b.rating - a.rating;
+                    });
+            }
+            
+            return sortedProducts;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBS Urban - Panel Administrador</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para el panel de administrador */
+        .crm-container {
+            display: flex;
+            min-height: calc(100vh - 160px);
+        }
+        
+        .crm-sidebar {
+            width: 250px;
+            background-color: #f5f5f5;
+            padding: 30px 0;
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        .crm-content {
+            flex: 1;
+            padding: 30px;
+            background-color: #fff;
+        }
+        
+        .user-info {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: #777;
+            font-size: 2rem;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .user-role {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .crm-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .crm-nav ul li {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .crm-nav ul li a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .crm-nav ul li a:hover,
+        .crm-nav ul li a.active {
+            background-color: #e8e8e8;
+        }
+        
+        .crm-nav ul li a i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .page-title {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .stat-card .stat-label {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .stat-card .stat-icon {
+            float: right;
+            font-size: 2.5rem;
+            color: rgba(191, 149, 63, 0.2);
+        }
+        
+        .recent-section {
+            margin-top: 30px;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .admin-table th,
+        .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .admin-table th {
+            font-weight: 600;
+            color: #555;
+            background-color: #f5f5f5;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-btn {
+            padding: 6px 10px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .action-btn.edit {
+            color: #2196F3;
+        }
+        
+        .action-btn.delete {
+            color: #F44336;
+        }
+        
+        .action-btn.view {
+            color: #4CAF50;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-processing {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .stock-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .stock-in {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .stock-low {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .stock-out {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .add-new-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #BF953F;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .add-new-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .form-panel {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Estilos para las pestañas */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .profile-image-preview {
+            width: 150px;
+            height: 150px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .profile-image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .logout-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            display: block;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .crm-container {
+                flex-direction: column;
+            }
+            
+            .crm-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                padding: 20px 0;
+            }
+            
+            .user-info {
+                display: flex;
+                align-items: center;
+                text-align: left;
+                padding: 0 20px 15px;
+            }
+            
+            .user-avatar {
+                margin: 0 15px 0 0;
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .crm-nav ul {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .crm-nav ul li {
+                flex: 0 0 auto;
+            }
+            
+            .crm-nav ul li a {
+                padding: 10px 15px;
+                flex-direction: column;
+                font-size: 0.8rem;
+                text-align: center;
+                gap: 5px;
+            }
+            
+            .crm-nav ul li a i {
+                width: auto;
+                font-size: 1.2rem;
+            }
+            
+            .crm-content {
+                padding: 20px;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-text gold-text">TBS URBAN</span>
+                    </a>
+                </div>
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Buscar...">
+                        <button type="button" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button class="cart-button" onclick="openCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+        <div class="crm-container">
+            <!-- Sidebar -->
+            <aside class="crm-sidebar">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Admin Demo</div>
+                        <div class="user-role">Administrador</div>
+                    </div>
+                </div>
+                
+                <nav class="crm-nav">
+                    <ul>
+                        <li><a href="#" class="tab-link active" data-tab="dashboard">
+                            <i class="fas fa-tachometer-alt"></i> Panel
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="products">
+                            <i class="fas fa-box"></i> Productos
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="orders">
+                            <i class="fas fa-shopping-bag"></i> Pedidos
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="customers">
+                            <i class="fas fa-users"></i> Clientes
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="messages">
+                            <i class="fas fa-envelope"></i> Mensajes
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="analytics">
+                            <i class="fas fa-chart-bar"></i> Analítica
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="campaigns">
+                            <i class="fas fa-bullhorn"></i> Campañas
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="order-status">
+                            <i class="fas fa-tasks"></i> Estados
+                        </a></li>
+                        <li><a href="#" class="tab-link" data-tab="settings">
+                            <i class="fas fa-cog"></i> Configuración
+                        </a></li>
+                    </ul>
+                </nav>
+                
+                <button id="logoutBtn" class="logout-btn">Cerrar Sesión</button>
+            </aside>
+            
+            <!-- Contenido principal -->
+            <div class="crm-content">
+                <!-- Panel de control -->
+                <div id="dashboard" class="tab-content active">
+                    <h1 class="page-title">Panel de Control</h1>
+                    
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-box stat-icon"></i>
+                            <div class="stat-label">Productos</div>
+                            <div class="stat-value">6</div>
+                            <div class="stat-change">+2 nuevos este mes</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <i class="fas fa-shopping-cart stat-icon"></i>
+                            <div class="stat-label">Pedidos</div>
+                            <div class="stat-value">28</div>
+                            <div class="stat-change">+15% este mes</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <i class="fas fa-users stat-icon"></i>
+                            <div class="stat-label">Clientes</div>
+                            <div class="stat-value">45</div>
+                            <div class="stat-change">+8 nuevos este mes</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <i class="fas fa-dollar-sign stat-icon"></i>
+                            <div class="stat-label">Ingresos</div>
+                            <div class="stat-value">$4.950.000</div>
+                            <div class="stat-change">+12% este mes</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pedidos recientes -->
+                    <div class="recent-section">
+                        <h2>Pedidos recientes</h2>
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Pedido #</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                        <th>Total</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>TBS-2058</td>
+                                        <td>Carlos Rodríguez</td>
+                                        <td>15/03/2025</td>
+                                        <td><span class="status-badge status-processing">En proceso</span></td>
+                                        <td>$210.000</td>
+                                        <td>
+                                            <div class="admin-actions">
+                                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TBS-2057</td>
+                                        <td>Ana María López</td>
+                                        <td>14/03/2025</td>
+                                        <td><span class="status-badge status-completed">Completado</span></td>
+                                        <td>$290.000</td>
+                                        <td>
+                                            <div class="admin-actions">
+                                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>TBS-2056</td>
+                                        <td>Juan Pérez</td>
+                                        <td>14/03/2025</td>
+                                        <td><span class="status-badge status-cancelled">Cancelado</span></td>
+                                        <td>$165.000</td>
+                                        <td>
+                                            <div class="admin-actions">
+                                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Productos con poco stock -->
+                    <div class="recent-section">
+                        <h2>Inventario bajo</h2>
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Producto</th>
+                                        <th>Categoría</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>TBS Urban Classic</td>
+                                        <td>Casual</td>
+                                        <td>$189.000</td>
+                                        <td><span class="stock-badge stock-low">Bajo (5)</span></td>
+                                        <td>
+                                            <div class="admin-actions">
+                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>TBS Performance Pro</td>
+                                        <td>Deportivos</td>
+                                        <td>$240.000</td>
+                                        <td><span class="stock-badge stock-low">Bajo (3)</span></td>
+                                        <td>
+                                            <div class="admin-actions">
+                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gestión de productos -->
+                <div id="products" class="tab-content">
+                    <h1 class="page-title">Gestión de Productos</h1>
+                    
+                    <button class="add-new-btn" id="addProductBtn">
+                        <i class="fas fa-plus"></i> Agregar nuevo producto
+                    </button>
+                    
+                    <!-- Formulario para agregar/editar producto (oculto por defecto) -->
+                    <div class="form-panel" id="productForm" style="display: none;">
+                        <h2 id="formTitle">Agregar nuevo producto</h2>
+                        <form id="addEditProductForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productName">Nombre del producto</label>
+                                    <input type="text" id="productName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productCategory">Categoría</label>
+                                    <select id="productCategory" required>
+                                        <option value="">Seleccionar categoría</option>
+                                        <option value="casual">Casual</option>
+                                        <option value="deportivos">Deportivos</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productPrice">Precio</label>
+                                    <input type="number" id="productPrice" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productRating">Valoración</label>
+                                    <input type="number" id="productRating" min="0" max="5" step="0.1" value="4.5" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productDescription">Descripción</label>
+                                <textarea id="productDescription" required></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productStock">¿En stock?</label>
+                                    <select id="productStock" required>
+                                        <option value="true">Sí</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productFeatured">¿Destacado?</label>
+                                    <select id="productFeatured" required>
+                                        <option value="true">Sí</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productNew">¿Nuevo?</label>
+                                    <select id="productNew" required>
+                                        <option value="true">Sí</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">URL de imagen</label>
+                                <input type="text" id="productImage" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Vista previa de imagen</label>
+                                <div class="profile-image-preview" id="imagePreview">
+                                    <img id="previewImg" src="" alt="Vista previa">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <button type="submit" class="add-new-btn">Guardar producto</button>
+                                    <button type="button" class="btn secondary-btn" id="cancelProductForm">Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Listado de productos -->
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Gestión de pedidos -->
+                <div id="orders" class="tab-content">
+                    <h1 class="page-title">Gestión de Pedidos</h1>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="orderStatusFilter">Filtrar por estado</label>
+                            <select id="orderStatusFilter">
+                                <option value="all">Todos</option>
+                                <option value="completed">Completados</option>
+                                <option value="processing">En proceso</option>
+                                <option value="cancelled">Cancelados</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderDateFilter">Filtrar por fecha</label>
+                            <select id="orderDateFilter">
+                                <option value="all">Todos</option>
+                                <option value="today">Hoy</option>
+                                <option value="week">Esta semana</option>
+                                <option value="month">Este mes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Pedido #</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Total</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TBS-2058</td>
+                                    <td>Carlos Rodríguez</td>
+                                    <td>15/03/2025</td>
+                                    <td><span class="status-badge status-processing">En proceso</span></td>
+                                    <td>$210.000</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TBS-2057</td>
+                                    <td>Ana María López</td>
+                                    <td>14/03/2025</td>
+                                    <td><span class="status-badge status-completed">Completado</span></td>
+                                    <td>$290.000</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TBS-2056</td>
+                                    <td>Juan Pérez</td>
+                                    <td>14/03/2025</td>
+                                    <td><span class="status-badge status-cancelled">Cancelado</span></td>
+                                    <td>$165.000</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TBS-2055</td>
+                                    <td>María Fernández</td>
+                                    <td>13/03/2025</td>
+                                    <td><span class="status-badge status-completed">Completado</span></td>
+                                    <td>$240.000</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TBS-2054</td>
+                                    <td>Santiago Gómez</td>
+                                    <td>12/03/2025</td>
+                                    <td><span class="status-badge status-completed">Completado</span></td>
+                                    <td>$175.000</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Gestión de clientes -->
+                <div id="customers" class="tab-content">
+                    <h1 class="page-title">Gestión de Clientes</h1>
+                    
+                    <div class="form-group">
+                        <input type="text" id="customerSearch" placeholder="Buscar cliente..." class="form-control">
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Pedidos</th>
+                                    <th>Fecha registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Carlos Rodríguez</td>
+                                    <td>carlos@example.com</td>
+                                    <td>+57 300 123 4567</td>
+                                    <td>3</td>
+                                    <td>10/01/2025</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Ana María López</td>
+                                    <td>ana@example.com</td>
+                                    <td>+57 311 234 5678</td>
+                                    <td>2</td>
+                                    <td>15/01/2025</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Juan Pérez</td>
+                                    <td>juan@example.com</td>
+                                    <td>+57 320 345 6789</td>
+                                    <td>1</td>
+                                    <td>20/01/2025</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>María Fernández</td>
+                                    <td>maria@example.com</td>
+                                    <td>+57 330 456 7890</td>
+                                    <td>2</td>
+                                    <td>25/01/2025</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Santiago Gómez</td>
+                                    <td>santiago@example.com</td>
+                                    <td>+57 340 567 8901</td>
+                                    <td>1</td>
+                                    <td>30/01/2025</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                            <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Funcionalidades Pendientes -->
+                <div class="form-panel" style="margin: 30px 0; display: none;">
+                    <h2>Funcionalidades en Desarrollo</h2>
+                    <div style="margin-top: 20px;">
+                        <div class="feature-item" style="margin-bottom: 15px; padding: 15px; background: linear-gradient(to right, #fff, #f8f9fa); border-radius: 8px; border-left: 4px solid #BF953F;">
+                            <h3 style="color: #BF953F; margin-bottom: 10px;">Comunicación con Clientes</h3>
+                            <p>Sistema de mensajes, respuestas y tickets de soporte en desarrollo.</p>
+                        </div>
+                        <div class="feature-item" style="margin-bottom: 15px; padding: 15px; background: linear-gradient(to right, #fff, #f8f9fa); border-radius: 8px; border-left: 4px solid #BF953F;">
+                            <h3 style="color: #BF953F; margin-bottom: 10px;">Segmentación y Analítica</h3>
+                            <p>Implementación de métricas de compra, frecuencia y análisis de clientes.</p>
+                        </div>
+                        <div class="feature-item" style="margin-bottom: 15px; padding: 15px; background: linear-gradient(to right, #fff, #f8f9fa); border-radius: 8px; border-left: 4px solid #BF953F;">
+                            <h3 style="color: #BF953F; margin-bottom: 10px;">Campañas Automáticas</h3>
+                            <p>Integración con sistema de email marketing y notificaciones.</p>
+                        </div>
+                        <div class="feature-item" style="margin-bottom: 15px; padding: 15px; background: linear-gradient(to right, #fff, #f8f9fa); border-radius: 8px; border-left: 4px solid #BF953F;">
+                            <h3 style="color: #BF953F; margin-bottom: 10px;">Gestión de Estados</h3>
+                            <p>Sistema completo de actualización de estados de pedidos.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sistema de Mensajes -->
+                <div id="messages" class="tab-content">
+                    <h1 class="page-title">Sistema de Mensajes</h1>
+                    
+                    <div class="form-panel">
+                        <div class="message-stats">
+                            <div class="stat-card">
+                                <i class="fas fa-envelope stat-icon"></i>
+                                <div class="stat-label">Mensajes sin leer</div>
+                                <div class="stat-value">5</div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-ticket-alt stat-icon"></i>
+                                <div class="stat-label">Tickets abiertos</div>
+                                <div class="stat-value">3</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-list">
+                            <div class="message-item unread">
+                                <div class="message-header">
+                                    <span class="customer-name">Carlos Rodríguez</span>
+                                    <span class="message-date">15/03/2025</span>
+                                </div>
+                                <div class="message-preview">Consulta sobre devolución del pedido TBS-2058...</div>
+                                <div class="message-actions">
+                                    <button class="action-btn view"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn reply"><i class="fas fa-reply"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segmentación y Analítica -->
+                <div id="analytics" class="tab-content">
+                    <h1 class="page-title">Segmentación y Analítica</h1>
+                    
+                    <div class="form-panel">
+                        <div class="analytics-section">
+                            <h3>Segmentos de Clientes</h3>
+                            <div class="segment-list">
+                                <div class="segment-item">
+                                    <h4>Clientes Premium</h4>
+                                    <p>Compras > $500,000 en los últimos 3 meses</p>
+                                    <span class="segment-count">15 clientes</span>
+                                </div>
+                                <div class="segment-item">
+                                    <h4>Clientes Frecuentes</h4>
+                                    <p>≥ 3 compras en el último mes</p>
+                                    <span class="segment-count">28 clientes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campañas Automáticas -->
+                <div id="campaigns" class="tab-content">
+                    <h1 class="page-title">Campañas Automáticas</h1>
+                    
+                    <div class="form-panel">
+                        <div class="campaign-list">
+                            <div class="campaign-item">
+                                <div class="campaign-header">
+                                    <h3>Bienvenida Nuevos Clientes</h3>
+                                    <span class="status-badge status-active">Activa</span>
+                                </div>
+                                <p>Envío automático de cupón de 10% descuento</p>
+                                <div class="campaign-stats">
+                                    <span>Enviados: 45</span>
+                                    <span>Abiertos: 38</span>
+                                    <span>Conversiones: 12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gestión de Estados -->
+                <div id="order-status" class="tab-content">
+                    <h1 class="page-title">Gestión de Estados de Pedidos</h1>
+                    
+                    <div class="form-panel">
+                        <div class="status-workflow">
+                            <div class="status-step">
+                                <h4>Pendiente</h4>
+                                <div class="status-cards">
+                                    <div class="order-card">
+                                        <span class="order-number">TBS-2058</span>
+                                        <span class="customer-name">Carlos Rodríguez</span>
+                                        <div class="status-actions">
+                                            <button class="btn-next-status">Procesar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="status-step">
+                                <h4>En Proceso</h4>
+                                <div class="status-cards">
+                                    <div class="order-card">
+                                        <span class="order-number">TBS-2057</span>
+                                        <span class="customer-name">Ana López</span>
+                                        <div class="status-actions">
+                                            <button class="btn-next-status">Enviar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Configuración -->
+                <div id="settings" class="tab-content">
+                    <h1 class="page-title">Configuración</h1>
+                    
+                    <div class="form-panel">
+                        <h2>Configuración general de la tienda</h2>
+                        <form id="storeSettingsForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="storeName">Nombre de la tienda</label>
+                                    <input type="text" id="storeName" value="TBS Urban">
+                                </div>
+                                <div class="form-group">
+                                    <label for="storeEmail">Email de contacto</label>
+                                    <input type="email" id="storeEmail" value="info@tbsurban.com">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="storePhone">Teléfono de contacto</label>
+                                    <input type="text" id="storePhone" value="+57 300 123 4567">
+                                </div>
+                                <div class="form-group">
+                                    <label for="storeAddress">Dirección</label>
+                                    <input type="text" id="storeAddress" value="Calle Principal 123, Bogotá">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="storeShipping">Costo de envío</label>
+                                    <input type="number" id="storeShipping" value="10000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="storeFreeShipping">Envío gratis a partir de</label>
+                                    <input type="number" id="storeFreeShipping" value="100000">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="add-new-btn">Guardar configuración</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="form-panel">
+                        <h2>Cambiar contraseña</h2>
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Contraseña actual</label>
+                                <input type="password" id="currentPassword" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="newPassword">Nueva contraseña</label>
+                                    <input type="password" id="newPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirmar nueva contraseña</label>
+                                    <input type="password" id="confirmPassword" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="add-new-btn">Cambiar contraseña</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="logo-text gold-text">TBS URBAN</h3>
+                    <p>Tu tienda especializada en tenis para hombres con las últimas tendencias y la mejor calidad.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Categorías</h4>
+                    <ul>
+                        <li><a href="categoria.html?cat=casual">Casual</a></li>
+                        <li><a href="categoria.html?cat=deportivos">Deportivos</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="#">Sobre nosotros</a></li>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="#">Envíos</a></li>
+                        <li><a href="#">Devoluciones</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Bogotá</li>
+                        <li><i class="fas fa-phone"></i> +57 300 123 4567</li>
+                        <li><i class="fas fa-envelope"></i> info@tbsurban.com</li>
+                        <li><i class="fas fa-clock"></i> Lun-Sáb: 10am - 8pm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TBS Urban. Todos los derechos reservados.</p>
+                <div class="footer-links">
+                    <a href="#">Política de privacidad</a>
+                    <a href="#">Términos y condiciones</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Overlay para elementos emergentes -->
+    <div class="overlay" id="overlay"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Script específico para el panel de administrador
+        document.addEventListener('DOMContentLoaded', function() {
+            // Comprobar si el usuario está logueado
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            
+            if (!currentUser || !currentUser.username || currentUser.role !== 'admin') {
+                // Si no está logueado o no es administrador, redirigir al login
+                window.location.href = 'crm-login.html';
+                return;
+            }
+            
+            // Mostrar nombre de usuario
+            document.getElementById('userName').textContent = currentUser.username;
+            
+            // Cambio de pestañas
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover clase activa de todos los links
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Agregar clase activa al link actual
+                    this.classList.add('active');
+                    
+                    // Mostrar el contenido correspondiente
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Variables para el formulario de productos
+            const addProductBtn = document.getElementById('addProductBtn');
+            const productForm = document.getElementById('productForm');
+            const cancelProductForm = document.getElementById('cancelProductForm');
+            const addEditProductForm = document.getElementById('addEditProductForm');
+            let currentProductId = null; // Para saber si estamos editando o creando
+            
+            // Mostrar formulario de agregar producto
+            if (addProductBtn) {
+                addProductBtn.addEventListener('click', function() {
+                    currentProductId = null;
+                    productForm.style.display = 'block';
+                    document.getElementById('formTitle').textContent = 'Agregar nuevo producto';
+                    addEditProductForm.reset();
+                    document.getElementById('previewImg').src = '';
+                });
+            }
+            
+            // Cancelar formulario
+            if (cancelProductForm) {
+                cancelProductForm.addEventListener('click', function() {
+                    productForm.style.display = 'none';
+                });
+            }
+            
+            // Vista previa de imagen en el formulario de productos
+            const productImage = document.getElementById('productImage');
+            const previewImg = document.getElementById('previewImg');
+            
+            if (productImage) {
+                productImage.addEventListener('input', function() {
+                    previewImg.src = this.value;
+                });
+            }
+            
+            // Cargar productos en la tabla
+            const productTableBody = document.getElementById('productTableBody');
+            if (productTableBody) {
+                loadProductsTable();
+            }
+            
+            // Manejo del formulario de productos (agregar/editar)
+            if (addEditProductForm) {
+                addEditProductForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Obtener valores del formulario
+                    const name = document.getElementById('productName').value;
+                    const category = document.getElementById('productCategory').value;
+                    const price = parseInt(document.getElementById('productPrice').value);
+                    const rating = parseFloat(document.getElementById('productRating').value);
+                    const description = document.getElementById('productDescription').value;
+                    const inStock = document.getElementById('productStock').value === 'true';
+                    const isNew = document.getElementById('productNew').value === 'true';
+                    const isFeatured = document.getElementById('productFeatured').value === 'true';
+                    const imageUrl = document.getElementById('productImage').value;
+                    
+                    // Validación básica
+                    if (!name || !category || !price || !description || !imageUrl) {
+                        alert('Por favor, completa todos los campos obligatorios');
+                        return;
+                    }
+                    
+                    if (currentProductId === null) {
+                        // Agregar nuevo producto
+                        const newId = getNextProductId();
+                        const newProduct = {
+                            id: newId,
+                            name: name,
+                            category: category,
+                            description: description,
+                            price: price,
+                            rating: rating,
+                            colors: ["Negro", "Blanco", "Gris"],
+                            sizes: [39, 40, 41, 42, 43, 44],
+                            imageUrl: imageUrl,
+                            inStock: inStock,
+                            isNew: isNew,
+                            isFeatured: isFeatured
+                        };
+                        
+                        // Agregar a la lista de productos
+                        products.push(newProduct);
+                        alert('Producto agregado correctamente');
+                    } else {
+                        // Editar producto existente
+                        const productIndex = products.findIndex(p => p.id === currentProductId);
+                        if (productIndex !== -1) {
+                            products[productIndex].name = name;
+                            products[productIndex].category = category;
+                            products[productIndex].description = description;
+                            products[productIndex].price = price;
+                            products[productIndex].rating = rating;
+                            products[productIndex].imageUrl = imageUrl;
+                            products[productIndex].inStock = inStock;
+                            products[productIndex].isNew = isNew;
+                            products[productIndex].isFeatured = isFeatured;
+                            
+                            alert('Producto actualizado correctamente');
+                        }
+                    }
+                    
+                    // Actualizar la tabla y cerrar el formulario
+                    loadProductsTable();
+                    productForm.style.display = 'none';
+                });
+            }
+            
+            // Configuración de la tienda
+            const storeSettingsForm = document.getElementById('storeSettingsForm');
+            if (storeSettingsForm) {
+                storeSettingsForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Configuración guardada correctamente');
+                });
+            }
+            
+            // Cambio de contraseña
+            const changePasswordForm = document.getElementById('changePasswordForm');
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const currentPassword = document.getElementById('currentPassword').value;
+                    const newPass = document.getElementById('newPassword').value;
+                    const confirmPass = document.getElementById('confirmPassword').value;
+                    
+                    if (!currentPassword || !newPass || !confirmPass) {
+                        alert('Por favor, completa todos los campos');
+                        return;
+                    }
+                    
+                    if (newPass !== confirmPass) {
+                        alert('Las contraseñas no coinciden');
+                        return;
+                    }
+                    
+                    alert('Contraseña actualizada correctamente');
+                    this.reset();
+                });
+            }
+            
+            // Manejo del botón de cerrar sesión
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                // Limpiar datos de sesión
+                localStorage.removeItem('currentUser');
+                
+                // Redirigir al login
+                window.location.href = 'crm-login.html';
+            });
+            
+            // Acciones de la tabla de productos (ver, editar, eliminar)
+            document.addEventListener('click', function(e) {
+                const actionBtn = e.target.closest('.action-btn');
+                if (!actionBtn) return;
+                
+                const productId = parseInt(actionBtn.getAttribute('data-id'));
+                const product = getProductById(productId);
+                
+                if (!product) return;
+                
+                if (actionBtn.classList.contains('edit')) {
+                    // Editar producto
+                    currentProductId = productId;
+                    document.getElementById('formTitle').textContent = 'Editar producto';
+                    
+                    // Rellenar el formulario con los datos del producto
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productRating').value = product.rating;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productStock').value = product.inStock ? 'true' : 'false';
+                    document.getElementById('productNew').value = product.isNew ? 'true' : 'false';
+                    document.getElementById('productFeatured').value = product.isFeatured ? 'true' : 'false';
+                    document.getElementById('productImage').value = product.imageUrl;
+                    document.getElementById('previewImg').src = product.imageUrl;
+                    
+                    // Mostrar el formulario
+                    productForm.style.display = 'block';
+                    
+                } else if (actionBtn.classList.contains('delete')) {
+                    // Eliminar producto
+                    if (confirm(`¿Estás seguro de eliminar el producto "${product.name}"?`)) {
+                        const productIndex = products.findIndex(p => p.id === productId);
+                        if (productIndex !== -1) {
+                            products.splice(productIndex, 1);
+                            loadProductsTable();
+                            alert('Producto eliminado correctamente');
+                        }
+                    }
+                } else if (actionBtn.classList.contains('view')) {
+                    // Ver detalles del producto
+                    const details = `
+                        ID: ${product.id}
+                        Nombre: ${product.name}
+                        Categoría: ${product.category}
+                        Precio: ${formatPrice(product.price)}
+                        Valoración: ${product.rating}
+                        Descripción: ${product.description}
+                        En stock: ${product.inStock ? 'Sí' : 'No'}
+                        Nuevo: ${product.isNew ? 'Sí' : 'No'}
+                        Destacado: ${product.isFeatured ? 'Sí' : 'No'}
+                        Colores: ${product.colors.join(', ')}
+                        Tallas: ${product.sizes.join(', ')}
+                    `;
+                    alert(details);
+                }
+            });
+            
+            // Filtro de pedidos
+            const orderStatusFilter = document.getElementById('orderStatusFilter');
+            const orderDateFilter = document.getElementById('orderDateFilter');
+            
+            if (orderStatusFilter) {
+                orderStatusFilter.addEventListener('change', function() {
+                    // Implementación futura para filtrar pedidos por estado
+                    alert('Filtro de estado aplicado: ' + this.value);
+                });
+            }
+            
+            if (orderDateFilter) {
+                orderDateFilter.addEventListener('change', function() {
+                    // Implementación futura para filtrar pedidos por fecha
+                    alert('Filtro de fecha aplicado: ' + this.value);
+                });
+            }
+            
+            // Búsqueda de clientes
+            const customerSearch = document.getElementById('customerSearch');
+            if (customerSearch) {
+                customerSearch.addEventListener('input', function() {
+                    // Implementación futura para buscar clientes
+                    if (this.value.length >= 3) {
+                        alert('Buscando clientes que coincidan con: ' + this.value);
+                    }
+                });
+            }
+        });
+        
+        // Función para obtener el siguiente ID disponible para un nuevo producto
+        function getNextProductId() {
+            let maxId = 0;
+            products.forEach(product => {
+                if (product.id > maxId) {
+                    maxId = product.id;
+                }
+            });
+            return maxId + 1;
+        }
+        
+        // Función para cargar los productos en la tabla
+        function loadProductsTable() {
+            const productTableBody = document.getElementById('productTableBody');
+            let html = '';
+            
+            products.forEach(product => {
+                const stockStatus = product.inStock 
+                    ? '<span class="stock-badge stock-in">En stock</span>' 
+                    : '<span class="stock-badge stock-out">Agotado</span>';
+                
+                html += `
+                    <tr>
+                        <td>${product.id}</td>
+                        <td><img src="${product.imageUrl}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                        <td>${product.name}</td>
+                        <td>${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</td>
+                        <td>${formatPrice(product.price)}</td>
+                        <td>${stockStatus}</td>
+                        <td>
+                            <div class="admin-actions">
+                                <button class="action-btn view" data-id="${product.id}"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn edit" data-id="${product.id}"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn delete" data-id="${product.id}"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            productTableBody.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
