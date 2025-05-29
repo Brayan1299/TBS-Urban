@@ -1,0 +1,1189 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Panel Administrativo | TBS Urban</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-body">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">TBS URBAN</div>
+                <div class="sidebar-subtitle">Panel Administrativo</div>
+                <button class="sidebar-close-mobile">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="admin-profile">
+                <div class="profile-avatar" id="profileAvatar">A</div>
+                <div class="profile-info">
+                    <h3 id="adminName">Administrador</h3>
+                    <div class="profile-role">Administrador</div>
+                </div>
+            </div>
+            
+            <nav class="admin-nav">
+                <div class="nav-section">
+                    <div class="nav-title">Principal</div>
+                    <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Gestión</div>
+                    <a href="#productos" class="nav-item" data-section="productos">
+                        <i class="fas fa-shoe-prints"></i>
+                        <span>Productos</span>
+                    </a>
+                    <a href="#pedidos" class="nav-item" data-section="pedidos">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Pedidos</span>
+                    </a>
+                    <a href="#clientes" class="nav-item" data-section="clientes">
+                        <i class="fas fa-users"></i>
+                        <span>Clientes</span>
+                    </a>
+                    <a href="#campanas" class="nav-item" data-section="campanas">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Campañas</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Análisis</div>
+                    <a href="#reportes" class="nav-item" data-section="reportes">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Reportes</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Sistema</div>
+                    <a href="../index.html" class="nav-item" target="_blank">
+                        <i class="fas fa-store"></i>
+                        <span>Ver Tienda</span>
+                    </a>
+                    <a href="#" class="nav-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="adminMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="header-title" id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-actions">
+                    <div class="current-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                    <button class="logout-btn" id="logoutBtnTop">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </header>
+
+            <!-- Contenido -->
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon sales">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="totalSales">$0</div>
+                            <div class="stat-label">Ventas Totales</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon orders">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="totalOrders">0</div>
+                            <div class="stat-label">Pedidos</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon products">
+                                    <i class="fas fa-shoe-prints"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="totalProducts">0</div>
+                            <div class="stat-label">Productos</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon customers">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="totalCustomers">0</div>
+                            <div class="stat-label">Clientes</div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Pedidos Recientes -->
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Pedidos Recientes</h3>
+                            <button class="btn btn-primary" onclick="showSection('pedidos')">Ver Todos</button>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTable">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Productos más vendidos -->
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Productos Más Vendidos</h3>
+                            <button class="btn btn-primary" onclick="showSection('productos')">Ver Todos</button>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Ventas</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topProductsTable">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Productos Section -->
+                <section id="productos" class="content-section">
+                    <div class="table-actions">
+                        <button class="btn btn-primary" onclick="showAddProductForm()">
+                            <i class="fas fa-plus"></i>
+                            Nuevo Producto
+                        </button>
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Buscar productos..." id="productSearch">
+                        </div>
+                    </div>
+
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Gestión de Productos</h3>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTable">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Pedidos Section -->
+                <section id="pedidos" class="content-section">
+                    <div class="table-actions">
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Buscar pedidos..." id="orderSearch">
+                        </div>
+                        <select id="orderStatusFilter">
+                            <option value="todos">Todos los estados</option>
+                            <option value="pendiente">Pendiente</option>
+                            <option value="procesando">Procesando</option>
+                            <option value="enviado">Enviado</option>
+                            <option value="entregado">Entregado</option>
+                        </select>
+                    </div>
+
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Gestión de Pedidos</h3>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Productos</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Clientes Section -->
+                <section id="clientes" class="content-section">
+                    <div class="table-actions">
+                        <button class="btn btn-primary" onclick="showAddClientForm()">
+                            <i class="fas fa-plus"></i>
+                            Nuevo Cliente
+                        </button>
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Buscar clientes..." id="clientSearch">
+                        </div>
+                    </div>
+
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Gestión de Clientes</h3>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Pedidos</th>
+                                    <th>Total Gastado</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientsTable">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Campañas Section -->
+                <section id="campanas" class="content-section">
+                    <div class="table-actions">
+                        <button class="btn btn-primary" onclick="showAddCampaignForm()">
+                            <i class="fas fa-plus"></i>
+                            Nueva Campaña
+                        </button>
+                    </div>
+
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Gestión de Campañas</h3>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Descuento</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="campaignsTable">
+                                <!-- Se cargará dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reportes Section -->
+                <section id="reportes" class="content-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon sales">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="monthlyGrowth">+12.5%</div>
+                            <div class="stat-label">Crecimiento Mensual</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon orders">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="avgOrderValue">$125</div>
+                            <div class="stat-label">Valor Promedio de Pedido</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon products">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="topCategory">Casual</div>
+                            <div class="stat-label">Categoría Más Vendida</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon customers">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="newCustomers">+24</div>
+                            <div class="stat-label">Nuevos Clientes (Mes)</div>
+                        </div>
+                    </div>
+
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Resumen de Ventas por Mes</h3>
+                        </div>
+                        <div style="height: 400px; padding: 20px;">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para agregar/editar producto -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="productModalTitle">Nuevo Producto</h3>
+                <button class="modal-close" onclick="closeProductModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="productName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Categoría</label>
+                            <select class="form-control" id="productCategory" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="casual">Casual</option>
+                                <option value="deportivos">Deportivos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="productPrice" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="productStock" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">URL de Imagen</label>
+                        <input type="url" class="form-control" id="productImage">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeProductModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveProduct()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../data.js"></script>
+    <script src="../script.js"></script>
+    <script src="admin.js"></script>
+    <script>
+        // Variables globales
+        let currentEditingProduct = null;
+        let allProducts = [];
+        let allOrders = [];
+        let allClients = [];
+        let allCampaigns = [
+            {
+                id: 1,
+                nombre: "Descuento Verano",
+                tipo: "Porcentaje",
+                descuento: "20%",
+                fechaInicio: "2024-06-01",
+                fechaFin: "2024-08-31",
+                estado: "Activa"
+            },
+            {
+                id: 2,
+                nombre: "Black Friday",
+                tipo: "Porcentaje",
+                descuento: "50%",
+                fechaInicio: "2024-11-29",
+                fechaFin: "2024-11-29",
+                estado: "Programada"
+            }
+        ];
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM cargado');
+            
+            // Verificar sesión
+            if (!verificarSesionAdmin()) return;
+            
+            // Inicializar datos
+            initializeData();
+            
+            // Cargar dashboard
+            loadDashboard();
+            
+            // Configurar navegación
+            setupNavigation();
+            
+            // Configurar eventos
+            setupEvents();
+            
+            console.log('Panel de administración inicializado');
+        });
+
+        function initializeData() {
+            // Cargar datos del localStorage o usar datos por defecto
+            allProducts = cargarProductos();
+            allOrders = cargarPedidos();
+            allClients = cargarClientes();
+            
+            console.log('Datos cargados:', {
+                productos: allProducts.length,
+                pedidos: allOrders.length,
+                clientes: allClients.length
+            });
+        }
+
+        function loadDashboard() {
+            // Actualizar estadísticas
+            updateStats();
+            
+            // Cargar tablas
+            loadRecentOrders();
+            loadTopProducts();
+            
+            // Mostrar fecha actual
+            const hoy = new Date();
+            const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = hoy.toLocaleDateString('es-ES', opciones);
+        }
+
+        function updateStats() {
+            // Calcular estadísticas
+            const totalVentas = allOrders.reduce((sum, order) => sum + order.total, 0);
+            
+            document.getElementById('totalSales').textContent = `$${totalVentas.toLocaleString()}`;
+            document.getElementById('totalOrders').textContent = allOrders.length;
+            document.getElementById('totalProducts').textContent = allProducts.length;
+            document.getElementById('totalCustomers').textContent = allClients.length;
+        }
+
+        function setupNavigation() {
+            const navItems = document.querySelectorAll('.nav-item[data-section]');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.dataset.section;
+                    showSection(section);
+                    
+                    // Actualizar navegación activa
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Actualizar título
+                    const titles = {
+                        dashboard: 'Dashboard',
+                        productos: 'Gestión de Productos',
+                        pedidos: 'Gestión de Pedidos',
+                        clientes: 'Gestión de Clientes',
+                        campanas: 'Gestión de Campañas',
+                        reportes: 'Reportes y Analytics'
+                    };
+                    
+                    document.getElementById('pageTitle').textContent = titles[section] || 'Dashboard';
+                });
+            });
+        }
+
+        function showSection(sectionName) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            const targetSection = document.getElementById(sectionName);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // Cargar datos específicos de la sección
+                switch(sectionName) {
+                    case 'productos':
+                        loadProductsTable();
+                        break;
+                    case 'pedidos':
+                        loadOrdersTable();
+                        break;
+                    case 'clientes':
+                        loadClientsTable();
+                        break;
+                    case 'campanas':
+                        loadCampaignsTable();
+                        break;
+                    case 'reportes':
+                        loadReports();
+                        break;
+                }
+            }
+        }
+
+        function setupEvents() {
+            // Logout buttons
+            document.getElementById('logoutBtn').addEventListener('click', cerrarSesion);
+            document.getElementById('logoutBtnTop').addEventListener('click', cerrarSesion);
+            
+            // Menu toggle
+            document.getElementById('adminMenuToggle').addEventListener('click', function() {
+                document.querySelector('.admin-sidebar').classList.toggle('active');
+            });
+            
+            // Búsquedas
+            document.getElementById('productSearch')?.addEventListener('input', function() {
+                filterProducts(this.value);
+            });
+            
+            document.getElementById('orderSearch')?.addEventListener('input', function() {
+                filterOrders(this.value);
+            });
+            
+            document.getElementById('clientSearch')?.addEventListener('input', function() {
+                filterClients(this.value);
+            });
+            
+            // Filtro de pedidos por estado
+            document.getElementById('orderStatusFilter')?.addEventListener('change', function() {
+                filterOrdersByStatus(this.value);
+            });
+        }
+
+        function loadRecentOrders() {
+            const tbody = document.getElementById('recentOrdersTable');
+            if (!tbody) return;
+            
+            // Ordenar pedidos por fecha (más recientes primero)
+            const recentOrders = [...allOrders]
+                .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                .slice(0, 5);
+            
+            tbody.innerHTML = '';
+            
+            recentOrders.forEach(order => {
+                const client = allClients.find(c => c.id === order.clienteId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>#${order.id}</td>
+                    <td>${client ? client.nombre : 'Cliente desconocido'}</td>
+                    <td>${formatoFecha(order.fecha)}</td>
+                    <td>$${order.total.toLocaleString()}</td>
+                    <td><span class="status-badge status-${order.estado.toLowerCase()}">${order.estado}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="viewOrder(${order.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="editOrder(${order.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadTopProducts() {
+            const tbody = document.getElementById('topProductsTable');
+            if (!tbody) return;
+            
+            // Calcular productos más vendidos
+            const productSales = {};
+            
+            allOrders.forEach(order => {
+                order.productos.forEach(item => {
+                    const productId = item.productoId;
+                    productSales[productId] = (productSales[productId] || 0) + (item.cantidad || 1);
+                });
+            });
+            
+            // Ordenar productos por ventas
+            const topProducts = allProducts
+                .map(product => ({
+                    ...product,
+                    sales: productSales[product.id] || 0
+                }))
+                .sort((a, b) => b.sales - a.sales)
+                .slice(0, 5);
+            
+            tbody.innerHTML = '';
+            
+            topProducts.forEach(product => {
+                let stockStatus = 'En stock';
+                let stockClass = 'stock-ok';
+                
+                if (product.stock <= 0) {
+                    stockStatus = 'Agotado';
+                    stockClass = 'stock-out';
+                } else if (product.stock < 10) {
+                    stockStatus = 'Bajo';
+                    stockClass = 'stock-low';
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="product-cell">
+                            <div class="product-image">
+                                <img src="${product.imagen}" alt="${product.nombre}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'40\\' height=\\'40\\'%3E%3Crect width=\\'40\\' height=\\'40\\' fill=\\'%23ddd\\'/%3E%3C/svg%3E'">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">${product.nombre}</div>
+                                <div class="product-category">${capitalizarPrimeraLetra(product.categoria)}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>$${product.precio.toLocaleString()}</td>
+                    <td>${product.sales} unidades</td>
+                    <td>${product.stock}</td>
+                    <td><span class="stock-badge ${stockClass}">${stockStatus}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadProductsTable() {
+            const tbody = document.getElementById('productsTable');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            allProducts.forEach(product => {
+                let stockStatus = 'En stock';
+                let stockClass = 'stock-ok';
+                
+                if (product.stock <= 0) {
+                    stockStatus = 'Agotado';
+                    stockClass = 'stock-out';
+                } else if (product.stock < 10) {
+                    stockStatus = 'Bajo';
+                    stockClass = 'stock-low';
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <img src="${product.imagen}" alt="${product.nombre}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'50\\' height=\\'50\\'%3E%3Crect width=\\'50\\' height=\\'50\\' fill=\\'%23ddd\\'/%3E%3C/svg%3E'">
+                    </td>
+                    <td>${product.nombre}</td>
+                    <td>${capitalizarPrimeraLetra(product.categoria)}</td>
+                    <td>$${product.precio.toLocaleString()}</td>
+                    <td>${product.stock}</td>
+                    <td><span class="stock-badge ${stockClass}">${stockStatus}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="viewProduct(${product.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="editProduct(${product.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteProduct(${product.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadOrdersTable() {
+            const tbody = document.getElementById('ordersTable');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            // Ordenar pedidos por fecha (más recientes primero)
+            const sortedOrders = [...allOrders].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            
+            sortedOrders.forEach(order => {
+                const client = allClients.find(c => c.id === order.clienteId);
+                const productCount = order.productos.length;
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>#${order.id}</td>
+                    <td>${client ? client.nombre : 'Cliente desconocido'}</td>
+                    <td>${formatoFecha(order.fecha)}</td>
+                    <td>${productCount} producto(s)</td>
+                    <td>$${order.total.toLocaleString()}</td>
+                    <td><span class="status-badge status-${order.estado.toLowerCase()}">${order.estado}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="viewOrder(${order.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="editOrder(${order.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-success" onclick="shipOrder(${order.id})">
+                            <i class="fas fa-shipping-fast"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadClientsTable() {
+            const tbody = document.getElementById('clientsTable');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            allClients.forEach(client => {
+                // Calcular estadísticas del cliente
+                const clientOrders = allOrders.filter(order => order.clienteId === client.id);
+                const totalSpent = clientOrders.reduce((sum, order) => sum + order.total, 0);
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${client.nombre}</td>
+                    <td>${client.email}</td>
+                    <td>${client.telefono || 'N/A'}</td>
+                    <td>${clientOrders.length}</td>
+                    <td>$${totalSpent.toLocaleString()}</td>
+                    <td>${client.fechaRegistro ? formatoFecha(client.fechaRegistro) : 'N/A'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="viewClient(${client.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="editClient(${client.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteClient(${client.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadCampaignsTable() {
+            const tbody = document.getElementById('campaignsTable');
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            allCampaigns.forEach(campaign => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${campaign.nombre}</td>
+                    <td>${campaign.tipo}</td>
+                    <td>${campaign.descuento}</td>
+                    <td>${formatoFecha(campaign.fechaInicio)}</td>
+                    <td>${formatoFecha(campaign.fechaFin)}</td>
+                    <td><span class="status-badge status-${campaign.estado.toLowerCase()}">${campaign.estado}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="editCampaign(${campaign.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteCampaign(${campaign.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadReports() {
+            // Cargar gráfico de ventas si no existe
+            const ctx = document.getElementById('salesChart');
+            if (ctx && !window.salesChartInstance) {
+                const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                const salesData = Array.from({length: 12}, () => Math.floor(Math.random() * 50000) + 10000);
+                
+                window.salesChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [{
+                            label: 'Ventas ($)',
+                            data: salesData,
+                            borderColor: '#BF953F',
+                            backgroundColor: 'rgba(191, 149, 63, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Funciones de productos
+        function showAddProductForm() {
+            currentEditingProduct = null;
+            document.getElementById('productModalTitle').textContent = 'Nuevo Producto';
+            document.getElementById('productForm').reset();
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function editProduct(id) {
+            const product = allProducts.find(p => p.id === id);
+            if (!product) return;
+            
+            currentEditingProduct = product;
+            document.getElementById('productModalTitle').textContent = 'Editar Producto';
+            
+            document.getElementById('productName').value = product.nombre;
+            document.getElementById('productCategory').value = product.categoria;
+            document.getElementById('productPrice').value = product.precio;
+            document.getElementById('productStock').value = product.stock;
+            document.getElementById('productDescription').value = product.descripcion || '';
+            document.getElementById('productImage').value = product.imagen || '';
+            
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function saveProduct() {
+            const form = document.getElementById('productForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const productData = {
+                nombre: document.getElementById('productName').value,
+                categoria: document.getElementById('productCategory').value,
+                precio: parseFloat(document.getElementById('productPrice').value),
+                stock: parseInt(document.getElementById('productStock').value),
+                descripcion: document.getElementById('productDescription').value,
+                imagen: document.getElementById('productImage').value || 'https://via.placeholder.com/400x300'
+            };
+            
+            if (currentEditingProduct) {
+                // Editar producto existente
+                const index = allProducts.findIndex(p => p.id === currentEditingProduct.id);
+                if (index !== -1) {
+                    allProducts[index] = { ...allProducts[index], ...productData };
+                    guardarProductos(allProducts);
+                    mostrarNotificacion('Producto actualizado correctamente');
+                }
+            } else {
+                // Crear nuevo producto
+                const newProduct = {
+                    id: generarID(),
+                    ...productData
+                };
+                allProducts.push(newProduct);
+                guardarProductos(allProducts);
+                mostrarNotificacion('Producto creado correctamente');
+            }
+            
+            closeProductModal();
+            loadProductsTable();
+            updateStats();
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function deleteProduct(id) {
+            confirmarAccion('¿Estás seguro de que quieres eliminar este producto?', function() {
+                allProducts = allProducts.filter(p => p.id !== id);
+                guardarProductos(allProducts);
+                mostrarNotificacion('Producto eliminado correctamente');
+                loadProductsTable();
+                updateStats();
+            });
+        }
+
+        function viewProduct(id) {
+            const product = allProducts.find(p => p.id === id);
+            if (product) {
+                alert(`Producto: ${product.nombre}\nCategoría: ${product.categoria}\nPrecio: $${product.precio}\nStock: ${product.stock}\nDescripción: ${product.descripcion || 'N/A'}`);
+            }
+        }
+
+        // Funciones de pedidos
+        function viewOrder(id) {
+            const order = allOrders.find(o => o.id === id);
+            const client = allClients.find(c => c.id === order?.clienteId);
+            
+            if (order) {
+                let productsList = order.productos.map(p => {
+                    const product = allProducts.find(prod => prod.id === p.productoId);
+                    return `- ${product?.nombre || 'Producto desconocido'} (Cantidad: ${p.cantidad || 1})`;
+                }).join('\n');
+                
+                alert(`Pedido #${order.id}\nCliente: ${client?.nombre || 'Desconocido'}\nFecha: ${formatoFecha(order.fecha)}\nTotal: $${order.total.toLocaleString()}\nEstado: ${order.estado}\n\nProductos:\n${productsList}`);
+            }
+        }
+
+        function editOrder(id) {
+            const newStatus = prompt('Nuevo estado del pedido (pendiente, procesando, enviado, entregado):');
+            if (newStatus && ['pendiente', 'procesando', 'enviado', 'entregado'].includes(newStatus.toLowerCase())) {
+                const orderIndex = allOrders.findIndex(o => o.id === id);
+                if (orderIndex !== -1) {
+                    allOrders[orderIndex].estado = newStatus.toLowerCase();
+                    guardarPedidos(allOrders);
+                    mostrarNotificacion('Estado del pedido actualizado');
+                    loadOrdersTable();
+                    loadRecentOrders();
+                }
+            } else {
+                alert('Estado inválido');
+            }
+        }
+
+        function shipOrder(id) {
+            const orderIndex = allOrders.findIndex(o => o.id === id);
+            if (orderIndex !== -1) {
+                allOrders[orderIndex].estado = 'enviado';
+                guardarPedidos(allOrders);
+                mostrarNotificacion('Pedido marcado como enviado');
+                loadOrdersTable();
+                loadRecentOrders();
+            }
+        }
+
+        // Funciones de clientes
+        function showAddClientForm() {
+            const name = prompt('Nombre del cliente:');
+            const email = prompt('Email del cliente:');
+            const phone = prompt('Teléfono del cliente:');
+            
+            if (name && email) {
+                const newClient = {
+                    id: generarID(),
+                    nombre: name,
+                    email: email,
+                    telefono: phone || '',
+                    fechaRegistro: new Date().toISOString().split('T')[0]
+                };
+                
+                allClients.push(newClient);
+                guardarClientes(allClients);
+                mostrarNotificacion('Cliente agregado correctamente');
+                loadClientsTable();
+                updateStats();
+            }
+        }
+
+        function viewClient(id) {
+            const client = allClients.find(c => c.id === id);
+            const clientOrders = allOrders.filter(order => order.clienteId === id);
+            const totalSpent = clientOrders.reduce((sum, order) => sum + order.total, 0);
+            
+            if (client) {
+                alert(`Cliente: ${client.nombre}\nEmail: ${client.email}\nTeléfono: ${client.telefono || 'N/A'}\nFecha de registro: ${client.fechaRegistro || 'N/A'}\nPedidos realizados: ${clientOrders.length}\nTotal gastado: $${totalSpent.toLocaleString()}`);
+            }
+        }
+
+        function editClient(id) {
+            const client = allClients.find(c => c.id === id);
+            if (!client) return;
+            
+            const newName = prompt('Nuevo nombre:', client.nombre);
+            const newEmail = prompt('Nuevo email:', client.email);
+            const newPhone = prompt('Nuevo teléfono:', client.telefono);
+            
+            if (newName && newEmail) {
+                const clientIndex = allClients.findIndex(c => c.id === id);
+                allClients[clientIndex] = {
+                    ...client,
+                    nombre: newName,
+                    email: newEmail,
+                    telefono: newPhone || client.telefono
+                };
+                
+                guardarClientes(allClients);
+                mostrarNotificacion('Cliente actualizado correctamente');
+                loadClientsTable();
+            }
+        }
+
+        function deleteClient(id) {
+            confirmarAccion('¿Estás seguro de que quieres eliminar este cliente?', function() {
+                allClients = allClients.filter(c => c.id !== id);
+                guardarClientes(allClients);
+                mostrarNotificacion('Cliente eliminado correctamente');
+                loadClientsTable();
+                updateStats();
+            });
+        }
+
+        // Funciones de campañas
+        function showAddCampaignForm() {
+            const name = prompt('Nombre de la campaña:');
+            const type = prompt('Tipo (Porcentaje/Monto fijo):');
+            const discount = prompt('Descuento:');
+            const startDate = prompt('Fecha de inicio (YYYY-MM-DD):');
+            const endDate = prompt('Fecha de fin (YYYY-MM-DD):');
+            
+            if (name && type && discount && startDate && endDate) {
+                const newCampaign = {
+                    id: generarID(),
+                    nombre: name,
+                    tipo: type,
+                    descuento: discount,
+                    fechaInicio: startDate,
+                    fechaFin: endDate,
+                    estado: 'Activa'
+                };
+                
+                allCampaigns.push(newCampaign);
+                mostrarNotificacion('Campaña creada correctamente');
+                loadCampaignsTable();
+            }
+        }
+
+        function editCampaign(id) {
+            const campaign = allCampaigns.find(c => c.id === id);
+            if (!campaign) return;
+            
+            const newStatus = prompt('Nuevo estado (Activa/Inactiva/Programada):', campaign.estado);
+            if (newStatus) {
+                const campaignIndex = allCampaigns.findIndex(c => c.id === id);
+                allCampaigns[campaignIndex].estado = newStatus;
+                mostrarNotificacion('Campaña actualizada correctamente');
+                loadCampaignsTable();
+            }
+        }
+
+        function deleteCampaign(id) {
+            confirmarAccion('¿Estás seguro de que quieres eliminar esta campaña?', function() {
+                allCampaigns = allCampaigns.filter(c => c.id !== id);
+                mostrarNotificacion('Campaña eliminada correctamente');
+                loadCampaignsTable();
+            });
+        }
+
+        // Funciones de filtrado
+        function filterProducts(searchTerm) {
+            const rows = document.querySelectorAll('#productsTable tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm.toLowerCase()) ? '' : 'none';
+            });
+        }
+
+        function filterOrders(searchTerm) {
+            const rows = document.querySelectorAll('#ordersTable tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm.toLowerCase()) ? '' : 'none';
+            });
+        }
+
+        function filterClients(searchTerm) {
+            const rows = document.querySelectorAll('#clientsTable tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm.toLowerCase()) ? '' : 'none';
+            });
+        }
+
+        function filterOrdersByStatus(status) {
+            const rows = document.querySelectorAll('#ordersTable tr');
+            rows.forEach(row => {
+                if (status === 'todos') {
+                    row.style.display = '';
+                } else {
+                    const statusCell = row.querySelector('.status-badge');
+                    if (statusCell) {
+                        const orderStatus = statusCell.textContent.toLowerCase();
+                        row.style.display = orderStatus === status ? '' : 'none';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

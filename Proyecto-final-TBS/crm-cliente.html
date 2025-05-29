@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - TBS Urban</title>
+    <link rel="stylesheet" href="../admin/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --client-primary: #2c3e50;
+            --client-secondary: #34495e;
+            --client-accent: #3498db;
+        }
+        
+        .admin-sidebar {
+            background: linear-gradient(180deg, var(--client-primary) 0%, var(--client-secondary) 100%);
+        }
+        
+        .sidebar-logo {
+            background: linear-gradient(45deg, var(--primary-gold), var(--primary-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(90deg, var(--client-accent), transparent);
+            border-right: 3px solid var(--client-accent);
+        }
+        
+        .stat-card::before {
+            background: linear-gradient(90deg, var(--client-accent), #3498db);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--client-accent), #3498db);
+        }
+        
+        .client-welcome {
+            background: linear-gradient(135deg, var(--primary-gold-light), var(--secondary-gold));
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        
+        .welcome-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .order-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .timeline-icon.completed { background: var(--admin-success); }
+        .timeline-icon.current { background: var(--client-accent); }
+        .timeline-icon.pending { background: var(--text-lighter); }
+        
+        .timeline-content h4 {
+            margin: 0 0 5px 0;
+            font-weight: 600;
+        }
+        
+        .timeline-content p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .profile-section {
+            background: var(--admin-card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--admin-shadow);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-gold), var(--primary-gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-right: 25px;
+        }
+        
+        .profile-details h2 {
+            margin: 0 0 5px 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .profile-details p {
+            margin: 0;
+            color: var(--text-light);
+        }
+        
+        .message-box {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--admin-shadow);
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .message-subject {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .message-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .message-content {
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+        
+        .tracking-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .tracking-number {
+            font-weight: 600;
+            color: var(--client-accent);
+            margin-bottom: 10px;
+        }
+        
+        .tracking-status {
+            display: flex;
+            align-items: center;
+            color: var(--admin-success);
+        }
+        
+        .tracking-status i {
+            margin-right: 8px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--admin-shadow);
+            overflow: hidden;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .product-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+        
+        .product-card .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .reward-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--admin-border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">TBS URBAN</div>
+                <div class="sidebar-subtitle">Mi Cuenta</div>
+                <button class="sidebar-close-mobile">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="admin-profile">
+                <div class="profile-avatar" id="profileAvatar">C</div>
+                <div class="profile-info">
+                    <h3 id="clientName">Cliente</h3>
+                    <div class="profile-role">Cliente Registrado</div>
+                </div>
+            </div>
+            
+            <nav class="admin-nav">
+                <div class="nav-section">
+                    <div class="nav-title">Mi Cuenta</div>
+                    <a href="#" class="nav-item active" data-section="dashboard">
+                        <i class="fas fa-home"></i>
+                        Panel Principal
+                    </a>
+                    <a href="#" class="nav-item" data-section="orders">
+                        <i class="fas fa-shopping-bag"></i>
+                        Mis Pedidos
+                    </a>
+                    <a href="#" class="nav-item" data-section="profile">
+                        <i class="fas fa-user"></i>
+                        Mi Perfil
+                    </a>
+                    <a href="#" class="nav-item" data-section="messages">
+                        <i class="fas fa-envelope"></i>
+                        Mensajes y Soporte
+                    </a>
+                    <a href="#" class="nav-item" data-section="wishlist">
+                        <i class="fas fa-heart"></i>
+                        Lista de Deseos
+                    </a>
+                    <a href="#" class="nav-item" data-section="rewards">
+                        <i class="fas fa-gift"></i>
+                        Recompensas
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Tienda</div>
+                    <a href="../index.html" class="nav-item">
+                        <i class="fas fa-store"></i>
+                        Volver a la Tienda
+                    </a>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Contenido principal -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="adminMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">Mi Panel</h1>
+                </div>
+                <div class="header-right">
+                    <div class="date-display">
+                        <i class="fas fa-calendar"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </header>
+            
+            <div class="admin-content">
+                <!-- Dashboard del Cliente -->
+                <section id="dashboard" class="content-section active">
+                    <div class="client-welcome">
+                        <h2 class="welcome-title">¡Bienvenido de nuevo!</h2>
+                        <p class="welcome-subtitle">Aquí puedes gestionar tus pedidos y actualizar tu información personal</p>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon orders">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="totalClientOrders">0</div>
+                            <div class="stat-label">Pedidos Realizados</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon sales">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="totalClientSpent">$0</div>
+                            <div class="stat-label">Total Gastado</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon products">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="favoriteProducts">0</div>
+                            <div class="stat-label">Productos Favoritos</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon customers">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="clientPoints">0</div>
+                            <div class="stat-label">Puntos de Fidelidad</div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Mis Últimos Pedidos</h3>
+                            <div class="table-actions">
+                                <a href="#" class="btn btn-primary btn-sm" onclick="showSection('orders')">
+                                    Ver Todos
+                                </a>
+                            </div>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Pedido</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentClientOrdersTable">
+                                <!-- Datos se cargan dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- Mis Pedidos -->
+                <section id="orders" class="content-section">
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Historial de Pedidos</h3>
+                            <div class="table-actions">
+                                <div class="search-box">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" class="search-input" placeholder="Buscar pedidos..." id="clientOrderSearch">
+                                </div>
+                                <select class="form-control" id="clientOrderStatusFilter" style="width: auto;">
+                                    <option value="">Todos los estados</option>
+                                    <option value="pendiente">Pendiente</option>
+                                    <option value="procesando">Procesando</option>
+                                    <option value="enviado">Enviado</option>
+                                    <option value="entregado">Entregado</option>
+                                    <option value="cancelado">Cancelado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Pedido</th>
+                                    <th>Fecha</th>
+                                    <th>Productos</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientOrdersTable">
+                                <!-- Datos se cargan dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- Mi Perfil -->
+                <section id="profile" class="content-section">
+                    <div class="profile-section">
+                        <div class="profile-header">
+                            <div class="profile-picture" id="profilePicture">C</div>
+                            <div class="profile-details">
+                                <h2 id="profileName">Nombre del Cliente</h2>
+                                <p>Miembro desde <span id="memberSince">2024</span></p>
+                            </div>
+                        </div>
+                        
+                        <form id="profileForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-control" id="profileNameInput" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="profileEmail" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="profilePhone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Documento</label>
+                                    <input type="text" class="form-control" id="profileDocument" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Dirección</label>
+                                <textarea class="form-control" id="profileAddress" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Actualizar Perfil
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                
+                <!-- Mensajes y Soporte -->
+                <section id="messages" class="content-section">
+                    <div class="profile-section">
+                        <h3>Centro de Mensajes y Soporte</h3>
+                        
+                        <!-- Enviar nuevo mensaje -->
+                        <div class="message-box">
+                            <h4>Enviar Mensaje al Soporte</h4>
+                            <form id="supportForm">
+                                <div class="form-group">
+                                    <label>Asunto</label>
+                                    <input type="text" class="form-control" id="messageSubject" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mensaje</label>
+                                    <textarea class="form-control" id="messageContent" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Enviar Mensaje
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Historial de mensajes -->
+                        <h4>Historial de Mensajes</h4>
+                        <div id="messagesHistory">
+                            <!-- Mensajes se cargan dinámicamente -->
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Lista de Deseos -->
+                <section id="wishlist" class="content-section">
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Mi Lista de Deseos</h3>
+                        </div>
+                        <div id="wishlistProducts" class="products-grid">
+                            <!-- Productos favoritos se cargan dinámicamente -->
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Recompensas -->
+                <section id="rewards" class="content-section">
+                    <div class="profile-section">
+                        <h3>Programa de Recompensas</h3>
+                        
+                        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+                            <div class="stat-card">
+                                <div class="stat-value" id="currentPoints">0</div>
+                                <div class="stat-label">Puntos Actuales</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="nextReward">100</div>
+                                <div class="stat-label">Puntos para próxima recompensa</div>
+                            </div>
+                        </div>
+                        
+                        <h4>Cómo ganar puntos:</h4>
+                        <ul>
+                            <li>Por cada compra: 1 punto por cada $1000 gastado</li>
+                            <li>Reseñas de productos: 10 puntos</li>
+                            <li>Referir amigos: 50 puntos</li>
+                            <li>Cumpleaños: 100 puntos de regalo</li>
+                        </ul>
+                        
+                        <h4>Recompensas disponibles:</h4>
+                        <div id="availableRewards">
+                            <div class="reward-item">
+                                <strong>Descuento 5%</strong> - 100 puntos
+                                <button class="btn btn-sm btn-primary" onclick="claimReward('discount5')">Canjear</button>
+                            </div>
+                            <div class="reward-item">
+                                <strong>Descuento 10%</strong> - 200 puntos
+                                <button class="btn btn-sm btn-primary" onclick="claimReward('discount10')">Canjear</button>
+                            </div>
+                            <div class="reward-item">
+                                <strong>Envío Gratis</strong> - 150 puntos
+                                <button class="btn btn-sm btn-primary" onclick="claimReward('freeShipping')">Canjear</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal para Ver Detalles de Pedido -->
+    <div class="modal-overlay" id="clientOrderModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Detalles del Pedido</h3>
+                <button class="modal-close" onclick="closeClientOrderModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="clientOrderModalBody">
+                <!-- Contenido se carga dinámicamente -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeClientOrderModal()">Cerrar</button>
+                <button class="btn btn-primary" onclick="downloadInvoice()">Descargar Factura</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../data.js"></script>
+    <script src="cliente.js"></script>
+</body>
+</html>
